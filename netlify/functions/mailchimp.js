@@ -2,7 +2,11 @@ const querystring = require('querystring');
 const axios = require('axios');
 
 exports.handler = async (event) => {
+    console.log("Received data:", event.body);
+
     const formData = querystring.parse(event.body);
+    console.log("Parsed form data:", formData);
+
     const {
         email,
         firstName,
@@ -55,6 +59,8 @@ exports.handler = async (event) => {
         },
     };
 
+    console.log("Sending data to Mailchimp:", data);
+
     const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
     const LIST_ID = process.env.MAILCHIMP_LIST_ID;
     const DC = MAILCHIMP_API_KEY.split('-')[1];
@@ -74,9 +80,10 @@ exports.handler = async (event) => {
             body: 'Subscriber added.'
         };
     } catch (error) {
+        console.error("Error occurred:", error.response ? error.response.data : error);
         return {
-            statusCode: 400,
-            body: JSON.stringify(error.response.statusText)
+            statusCode: error.response ? error.response.status : 500,
+            body: JSON.stringify(error.response ? error.response.data : error.message)
         };
-    };
+    }
 };
