@@ -6,6 +6,9 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy('src/admin');
     eleventyConfig.addPassthroughCopy('src/assets');
     
+
+    // Adding a filter for the date
+
     const nunjucks = require("nunjucks");
     eleventyConfig.setLibrary("njk", nunjucks.configure("src/_includes"));
 
