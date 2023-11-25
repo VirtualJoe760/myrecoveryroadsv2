@@ -143,9 +143,6 @@
             <h2 class="rb-color-primary mt-5" id="#sendStory">Help us make a difference.</h2>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          
-          
-          
           <p class="rb-color-primary mt-3 mx-5">
             We are always expanding our capabilities to help disenchanted individuals regain their positions in the
             world. Fill out the form below and we will send you an email to schedule an appointment.
@@ -153,10 +150,10 @@
           <div class="col-sm-8 mx-5 mt-3">
             <form method="POST" enctype="multipart/form-data" class="application" id="partnerForm"
               name="Partner Application" data-netlify="true">
-              <input type="text" class="form-control my-2" placeholder="Organizations Name">
-              <input type="text" class="form-control my-2" placeholder="Email">
-              <input type="text" class="form-control my-2" placeholder="Phone Number">
-              <input type="text" class="form-control my-2" placeholder="Address">
+              <input type="text" name="Organization Name" class="form-control my-2" placeholder="Organizations Name">
+              <input type="text" name="Email Address" class="form-control my-2" placeholder="Email">
+              <input type="text" name="Phone Number" class="form-control my-2" placeholder="Phone Number">
+              <input type="text" name="Address" class="form-control my-2" placeholder="Address">
               <textarea type="text" class="form-control story-share mt-2 mb-4"
                 placeholder="Tell us about your services."></textarea>
               <label for="businessType" class="rb-color-primary fs-5 ms-2">Type of Business</label>
@@ -172,7 +169,6 @@
                 <input type="radio" name="businessTypeRadial" id="businessTypeRi" class="form-check-input my-2">
                 <label class="form-check-label rb-color-primary" for="businessTypeRi">Religious Institutions</label><br />
               </div>
-
               <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
             </form>
           </div>
