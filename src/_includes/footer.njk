@@ -1,0 +1,65 @@
+<div class="footer-container px-lg-5 px-sm-2">
+  <footer class="container d-flex flex-wrap justify-content-between align-items-center border-top border-white">
+    <a class="col-md-4 mb-0 text-body-secondary nav-link" href="/">My Recovery Roads</a>
+
+    <a href="/"
+      class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <svg class="bi me-2" width="40" height="32">
+        <use xlink:href="#bootstrap"></use>
+      </svg>
+    </a>
+
+    <ul class="nav col-md-4 justify-content-end">
+      <li class="nav-item"><a href="/" class="nav-link px-2">Home</a></li>
+      <li class="nav-item"><a href="/" class="nav-link px-2" data-bs-toggle="modal"
+          data-bs-target="#providerSign-up">Partner with us</a></li>
+      <li class="nav-item"><a href="/resources/detox" class="nav-link px-2">Detox</a></li>
+      <li class="nav-item"><a href="/resources/sober-living" class="nav-link px-2">Sober Living</a></li>
+      <li class="nav-item"><a href="/resources/therapy" class="nav-link px-2">Therapy</a></li>
+      <li class="nav-item"><a href="/services/tech-services" class="nav-link px-2">Addiction Stories</a></li>
+      <li class="nav-item"><a href="/get-help/find-program#apply" class="nav-link px-2">Get Help</a></li>
+
+    </ul>
+
+    <!-- Provider Sign-up Modal -->
+
+    <div class="modal fade" id="providerSign-up" tabindex="-1" aria-labelledby="#providerSign-up" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rb-bgc-night container">
+          <h2 class="rb-color-primary mt-5 mx-5" id="#sendStory">We're always looking to expand our network.</h2>
+          <hr class="white-hr" />
+          <p class="rb-color-primary mt-2 mx-5">
+            We are always expanding our capabilities to help disenchanted individuals regain their positions in the
+            world. Fill out the form below and we will send you an email to schedule an appointment.
+          </p>
+          <div class="col-sm-8 mx-5 mt-3">
+            <form method="POST" enctype="multipart/form-data" class="application" id="partnerForm"
+              name="partnerApplication" data-netlify="true">
+              <input type="text" class="form-control my-2" placeholder="Organizations Name">
+              <input type="text" class="form-control my-2" placeholder="Email">
+              <input type="text" class="form-control my-2" placeholder="Phone Number">
+              <input type="text" class="form-control my-2" placeholder="Address">
+              <textarea type="text" class="form-control story-share mt-2 mb-4"
+                placeholder="Tell us about your services."></textarea>
+              <label for="businessType" class="rb-color-primary fs-5 ms-2">Type of Business</label>
+              <div class="form-check ms-3 mb-3">
+                <input type="radio" name="businessType" id="businessType" class="form-check-input my-2">
+                <label class="form-check-label rb-color-primary" for="businessType">Sober Livings</label><br />
+                <input type="radio" name="businessType" id="businessType" class="form-check-input my-2">
+                <label class="form-check-label rb-color-primary" for="businessType">Detox Centers</label><br />
+                <input type="radio" name="businessType" id="businessType" class="form-check-input my-2">
+                <label class="form-check-label rb-color-primary" for="businessType">Therapists</label><br />
+                <input type="radio" name="businessType" id="businessType" class="form-check-input my-2">
+                <label class="form-check-label rb-color-primary" for="businessType">Mental Health Services</label><br />
+                <input type="radio" name="businessType" id="businessType" class="form-check-input my-2">
+                <label class="form-check-label rb-color-primary" for="businessType">Religious Institutions</label><br />
+              </div>
+
+              <button type="button" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>  
+  </footer>
+</div>

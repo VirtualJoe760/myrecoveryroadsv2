@@ -1,0 +1,63 @@
+<div class="container list-container">
+    <div class="row">
+        <div class="col-12 justify-content-center mt-5" id="pagination">
+            <h1 class="mt-5">Addiction Stories</h1>         
+        </div>
+        <hr class="white-hr">
+    </div>
+</div>
+
+{%- for post in stories | reverse -%}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-7 col-md-10">
+            <a href="{{ post.url }}" style="text-decoration: none;">
+                <h3 class="mt-5">{{ post.data.title }}</h3>
+            </a>
+            <p>Written by: {{ post.data.author }}</p>           
+            <a href="{{ post.url }}" style="text-decoration: none;">
+                <!-- Mobile Thumbnail-->
+                <img src="{{ post.data.image}}" alt="{{ post.data.imageAlt }}" style="width:400px; height:200px;"
+                    class="img-fluid post-thumb-nail-mobile">
+            </a>
+            <p>{{ post.data.description }}</p>
+            <a href="{{ post.url }}" class="btn btn-outline-primary mt-3">Read now</a>
+        </div>
+        <!-- Desktop Thumbnail-->
+        <div class="col-5 col-thumb-nail">
+            <a href="{{ post.url }}" style="text-decoration: none;"><img src="{{ post.data.image}}"
+                    alt="{{ post.data.imageAlt }}" style="width:400px; height:200px;"
+                    class="img-fluid post-thumb-nail mt-5">
+                </a>
+        </div>
+        <hr class="white-hr mt-5 px-5">
+    </div>
+</div>
+
+{% endfor %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation" class="pagination justify-content-end">
+                <ul class=" justify-content-end no-bullets d-flex">
+                    <li class="w-100 li-pagination">
+                        {% if pagination.href.previous %}
+                        <a class="fs-5 no-underline" href="{{ pagination.href.previous }}#pagination"
+                            aria-label="Previous">
+                            <i class="bi bi-arrow-return-left pagination-navigation me-5"></i>
+                        </a>{% endif %}
+                    </li>
+                    <li class="li-pagination">
+                        {% if pagination.href.next %}
+                        <a class="fs-5 no-underline " href="{{ pagination.href.next }}#pagination"
+                            aria-label="Next">
+                            <i class="bi bi-arrow-return-right pagination-navigation me-5"></i>
+                        {% endif %}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<section class="email-story" style="overflow:hidden;">
+    <div class="row">
+        <div class="col-md-8 mx-md-auto col-9 mx-auto my-5 py-5 ms-sm-5">
+            <h2 class="rb-color-primary my-3 pt-5">
+                Share your story
+            </h2>
+            <p class="rb-color-primary fs-5">
+                We would love to hear your story. Click the button below to share your story of recovery with us. We
+                will review and repost it anonymously to share stories of strength with our community.
+            </p>
+            <button type="button" class="btn btn-outline-primary mt-3 mb-5" data-bs-toggle="modal" data-bs-target="#sendStory">Share your story</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="sendStory" tabindex="-1" aria-labelledby="sendStoryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rb-bgc-night container">
+                <h1 class="rb-color-primary mt-5 mx-5" id="sendStoryLabel">Send us your story.</h1> 
+                <hr class="white-hr" />
+                <p class="rb-color-primary mt-2 mx-5">
+                    Your stories are shared anonymously. We will review, and curate your story to share with our audience without altering the message.
+                </p>
+                <div class="col-sm-8 mx-5 mt-3">
+                    <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" enctype="multipart/form-data">
+                        <input type="email" name="Email Address" class="form-control my-2" placeholder="Email" required>
+                        <input type="text" name="Subject" class="form-control my-2" placeholder="Subject" required>
+                        <textarea name="Story" class="form-control story-share mt-2 mb-5"
+                            placeholder="Share your story." required></textarea>
+                            <input type="hidden" name="tags" value="StoryTeller" />
+                        <button type="submit" class="btn btn-outline-primary mb-5">Share your story</button>  
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
