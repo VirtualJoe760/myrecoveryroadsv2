@@ -1,9 +1,13 @@
 <section id="apply" class="apply">
     <div class="container">
         <div class="application-heading">
-            <h2 class="rb-text-heavy rb-color-primary">Join our program</h2>
+            <h2 class="rb-text-heavy rb-color-primary">Get help</h2>
             <hr class="white-hr mb-4">
+            <p class="rb-text-light rb-color-primary">Fill out the form below to apply for our program. Our intake coordinators will reach out within 72 hours via email or phone to discuss your options.</p>
+
         </div>
+
+        <!-- Patient Intake Form -->
         <div class="container join-program">
             <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="multipart/form-data">
                 <!-- Form fields... -->
@@ -47,6 +51,7 @@
                 <!-- File Upload Fields -->
                 <div class="row">
                     <div class="col-9 upload-container rb-color-primary rb-text-light">
+                        <p class="rb-color-primary">Total filesize above 15mb will not be submited:</p>
                         <label class="form-label" for="front-upload">Upload Front of Insurance Card:</label>
                         <input class="upload-input" accept="image/png, image/jpeg" type="file" id="front-upload" name="front-upload" required><br>
                         <label class="form-label" for="back-upload">Upload Back of Insurance Card:</label>
@@ -56,7 +61,7 @@
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
                         <input type="hidden" name="tags" value="Applied" />
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-5 mb-1">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-3 mb-1">Submit</button>
                     </div>
                     <div class="col-3 justify-content-end text-end">
                         <button type="submit" id="submit-button" class="btn btn-outline-primary submit-lg me-sm-3 my-5">Submit</button>

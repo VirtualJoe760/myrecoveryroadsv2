@@ -115,9 +115,11 @@
                     <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" enctype="multipart/form-data">
                         <input type="email" name="Email Address" class="form-control my-2" placeholder="Email" required>
                         <input type="text" name="Subject" class="form-control my-2" placeholder="Subject" required>
-                        <textarea name="Story" class="form-control story-share mt-2 mb-5"
+                        <textarea name="Story" class="form-control story-share mt-2 mb-3"
                             placeholder="Share your story." required></textarea>
-                            <input type="hidden" name="tags" value="StoryTeller" />
+                        <input type="checkbox" name="_optin" class="opt-in" required />
+                        <label for="_optin" class="form-label rb-color-primary rb-text-light mb-2">You Agree to email communication.</label>
+                        <input type="hidden" name="tags" value="storyTeller" />
                         <button type="submit" class="btn btn-outline-primary mb-5">Share your story</button>  
                     </form>
                 </div>
@@ -170,9 +172,13 @@
         <section id="apply" class="apply">
     <div class="container">
         <div class="application-heading">
-            <h2 class="rb-text-heavy rb-color-primary">Join our program</h2>
+            <h2 class="rb-text-heavy rb-color-primary">Get help</h2>
             <hr class="white-hr mb-4">
+            <p class="rb-text-light rb-color-primary">Fill out the form below to apply for our program. Our intake coordinators will reach out within 72 hours via email or phone to discuss your options.</p>
+
         </div>
+
+        <!-- Patient Intake Form -->
         <div class="container join-program">
             <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="multipart/form-data">
                 <!-- Form fields... -->
@@ -216,6 +222,7 @@
                 <!-- File Upload Fields -->
                 <div class="row">
                     <div class="col-9 upload-container rb-color-primary rb-text-light">
+                        <p class="rb-color-primary">Total filesize above 15mb will not be submited:</p>
                         <label class="form-label" for="front-upload">Upload Front of Insurance Card:</label>
                         <input class="upload-input" accept="image/png, image/jpeg" type="file" id="front-upload" name="front-upload" required><br>
                         <label class="form-label" for="back-upload">Upload Back of Insurance Card:</label>
@@ -225,7 +232,7 @@
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
                         <input type="hidden" name="tags" value="Applied" />
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-5 mb-1">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-3 mb-1">Submit</button>
                     </div>
                     <div class="col-3 justify-content-end text-end">
                         <button type="submit" id="submit-button" class="btn btn-outline-primary submit-lg me-sm-3 my-5">Submit</button>
@@ -266,7 +273,7 @@
         <div class="modal-content rb-bgc-night container">
 
 
-          <!-- Modal Header -->
+          <!-- Partnership Modal Header -->
           <div class="modal-header mx-5">
             <h2 class="rb-color-primary mt-5" id="#sendStory">Help us make a difference.</h2>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -284,7 +291,7 @@
               <input type="text" name="Business Address" class="form-control my-2" placeholder="Address">
               <textarea type="text" name="Business Message" class="form-control story-share mt-2 mb-4"
                 placeholder="Tell us about your services."></textarea>
-              <label for="businessType" class="rb-color-primary fs-5 ms-2">Type of Business</label>
+              <label for="businessType" class="rb-color-primary fs-5 ms-2 mb-1">Type of Business</label>
               <div class="form-check ms-3 mb-3">
                 <input type="radio" name="businessTypeRadial" id="businessTypeSl" class="form-check-input my-2">
                 <label class="form-check-label rb-color-primary" for="businessTypeSl">Sober Livings</label><br />
@@ -297,6 +304,9 @@
                 <input type="radio" name="businessTypeRadial" id="businessTypeRi" class="form-check-input my-2">
                 <label class="form-check-label rb-color-primary" for="businessTypeRi">Religious Institutions</label><br />
               </div>
+              <input type="checkbox" name="_optin" required />
+                <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
+                <input type="hidden" name="tags" value="Partnership" />
               <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
             </form>
           </div>
