@@ -1,15 +1,20 @@
 const axios = require('axios');
 
 exports.handler = async (event) => {
-    const { email, firstName, lastName } = JSON.parse(event.body);
+    const formData = JSON.parse(event.body);
+    const { email, firstName, lastName, tags } = formData;
+
+    // Split tags string into an array if it's not empty
+    const tagsArray = tags ? tags.split(',').map(tag => tag.trim()) : [];
 
     const data = {
         email_address: email,
         status: 'subscribed',
-        tags: ['shareStory', 'Applied', 'partnerApplication', 'patientApplication'],
+        tags: tagsArray,
         merge_fields: {
             FNAME: firstName,
             LNAME: lastName,
+            // Add other merge fields here as needed
         },
     };
 
