@@ -1,7 +1,8 @@
+const querystring = require('querystring');
 const axios = require('axios');
 
 exports.handler = async (event) => {
-    const formData = JSON.parse(event.body);
+    const formData = querystring.parse(event.body);
     const {
         email,
         firstName,
