@@ -103,9 +103,12 @@
     <div class="modal fade" id="sendStory" tabindex="-1" aria-labelledby="sendStoryLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rb-bgc-night container">
-                <h1 class="rb-color-primary mt-5 mx-5" id="sendStoryLabel">Send us your story.</h1> 
-                <hr class="white-hr" />
-                <p class="rb-color-primary mt-2 mx-5">
+                <div class="modal-header mx-5">
+                <h1 class="rb-color-primary mt-5 mx-auto " id="sendStoryLabel">Send us your story.</h1> 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                
+                <p class="rb-color-primary mt-3 mx-5">
                     Your stories are shared anonymously. We will review, and curate your story to share with our audience without altering the message.
                 </p>
                 <div class="col-sm-8 mx-5 mt-3">
@@ -261,9 +264,17 @@
     <div class="modal fade" id="providerSign-up" tabindex="-1" aria-labelledby="#providerSign-up" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rb-bgc-night container">
-          <h2 class="rb-color-primary mt-5 mx-5" id="#sendStory">We're always looking to expand our network.</h2>
-          <hr class="white-hr" />
-          <p class="rb-color-primary mt-2 mx-5">
+
+
+          <!-- Modal Header -->
+          <div class="modal-header mx-5">
+            <h2 class="rb-color-primary mt-5" id="#sendStory">Help us make a difference.</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          
+          
+          <p class="rb-color-primary mt-3 mx-5">
             We are always expanding our capabilities to help disenchanted individuals regain their positions in the
             world. Fill out the form below and we will send you an email to schedule an appointment.
           </p>
@@ -295,7 +306,7 @@
         </div>
         </form>
       </div>
-    </div>  
+    </div>
   </footer>
 </div>
 

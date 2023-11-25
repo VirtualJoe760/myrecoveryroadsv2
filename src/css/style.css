@@ -414,6 +414,11 @@ p, a, li, span {
     background-color: var(--secondary);
 }
 
+/* modal button */
+.btn-close {
+    filter: invert(1);
+}
+
 
 
 /* Media Queries */
