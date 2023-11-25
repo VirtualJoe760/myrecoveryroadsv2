@@ -1,4 +1,0 @@
----
-layout: provider-signup.njk
-
----
