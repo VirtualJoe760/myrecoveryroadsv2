@@ -5,7 +5,8 @@ client.setConfig({
   server: "us21",
 });
 
-const journeyId = 3120;
+const journeyId = document.getElementByName('journey').value;
+console.log(journey);
 
 const getJourneyStepId = async (journeyId) => {
   try {

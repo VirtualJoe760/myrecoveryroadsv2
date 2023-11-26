@@ -20,7 +20,7 @@ exports.handler = async (event) => {
         const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
         const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
         const phone = formData.phone || 'none'; // Default to 'none' if not provided
-        
+        const mcTags = document.getElementsByName(tags); // Extracting tags
 
 
         const data = {
@@ -34,7 +34,7 @@ exports.handler = async (event) => {
                 MEMBERID: formData.memberID,
                 GROUPNUM: formData.groupNumber
             },
-            tags: ['Applied']
+            tags: mcTags
         };
 
         const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
