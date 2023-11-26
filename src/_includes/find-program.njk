@@ -9,7 +9,7 @@
 
         <!-- Patient Intake Form -->
         <div class="container join-program">
-            <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="multipart/form-data">
+            <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="application/x-www-form-urlencoded" action="/.netlify/functions/patientForm">
                 <!-- Form fields... -->
                 <!-- First and Last Name Fields -->
                 <div class="row">
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="email" class="form-label rb-color-primary rb-text-light">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="johnsmith@gmail.com" required>
+                        <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="johnsmith@gmail.com" required>
                     </div>
                     <div class="col-6">
                         <label for="phone" class="form-label rb-color-primary rb-text-light">Phone</label>
@@ -59,7 +59,7 @@
                         <input type="hidden" name="_next" value="https://www.myrecoveryroads.com" />
                         <input type="checkbox" name="_optin" class="opt-in" required />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
-                        <input type="hidden" name="tags" value="Applied" />
+                        <input type="hidden" name="tags" value="patientForm" />
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-3 mb-1">Submit</button>
                     </div>

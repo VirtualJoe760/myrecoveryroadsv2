@@ -24,6 +24,9 @@
 
     <link rel="icon" type="image/png" href="/assets/photos/logo.png">
 
+    <!-- mailchimp.js -->
+    <script src="/netlify/functions/mailchimp.js"></script>
+    <script src="/netlify/functions/patientForm.js"></script>
 
 
 </head>
@@ -119,7 +122,7 @@
                             placeholder="Share your story." required></textarea>
                         <input type="checkbox" name="_optin" class="opt-in" required />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light mb-2">You Agree to email communication.</label>
-                        <input type="hidden" name="tags" value="storyTeller" />
+                        <input type="hidden" name="tags" value="storyTellerForm" />
                         <button type="submit" class="btn btn-outline-primary mb-5">Share your story</button>  
                     </form>
                 </div>
@@ -180,7 +183,7 @@
 
         <!-- Patient Intake Form -->
         <div class="container join-program">
-            <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="multipart/form-data">
+            <form class="application" id="patientForm" name="Patient Intake" data-netlify="true" method="POST" enctype="application/x-www-form-urlencoded" action="/.netlify/functions/patientForm">
                 <!-- Form fields... -->
                 <!-- First and Last Name Fields -->
                 <div class="row">
@@ -197,7 +200,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="email" class="form-label rb-color-primary rb-text-light">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="johnsmith@gmail.com" required>
+                        <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="johnsmith@gmail.com" required>
                     </div>
                     <div class="col-6">
                         <label for="phone" class="form-label rb-color-primary rb-text-light">Phone</label>
@@ -230,7 +233,7 @@
                         <input type="hidden" name="_next" value="https://www.myrecoveryroads.com" />
                         <input type="checkbox" name="_optin" class="opt-in" required />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
-                        <input type="hidden" name="tags" value="Applied" />
+                        <input type="hidden" name="tags" value="patientForm" />
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-3 mb-1">Submit</button>
                     </div>
@@ -306,7 +309,7 @@
               </div>
               <input type="checkbox" name="_optin" required />
                 <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
-                <input type="hidden" name="tags" value="Partnership" />
+                <input type="hidden" name="tags" value="businessForm" />
               <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
             </form>
           </div>
