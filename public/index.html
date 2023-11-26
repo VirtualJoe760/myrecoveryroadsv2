@@ -118,11 +118,12 @@
                     <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" enctype="multipart/form-data">
                         <input type="email" name="Email Address" class="form-control my-2" placeholder="Email" required>
                         <input type="text" name="Subject" class="form-control my-2" placeholder="Subject" required>
-                        <textarea name="Story" class="form-control story-share mt-2 mb-3"
+                        <textarea name="message" class="form-control story-share mt-2 mb-3"
                             placeholder="Share your story." required></textarea>
                         <input type="checkbox" name="_optin" class="opt-in" required />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light mb-2">You Agree to email communication.</label>
                         <input type="hidden" name="tags" value="storyTellerForm" />
+                        <input type="hidden" name="journey" value="3116">
                         <button type="submit" class="btn btn-outline-primary mb-5">Share your story</button>  
                     </form>
                 </div>
@@ -235,7 +236,7 @@
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
                         <input type="hidden" value="patientForm" />
                         <input type="hidden" name="tags" value="Applied" />
-                        <input type="hidden" name="journey" value="3116">
+                        <input type="hidden" name="journey" value="3120">
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-outline-primary submit-mobile me-sm-3 mt-3 mb-1">Submit</button>
                     </div>
@@ -290,7 +291,7 @@
           <div class="col-sm-8 mx-5 mt-3">
             <form method="POST" enctype="multipart/form-data" class="application" id="partnerForm"
               name="Partner Application" data-netlify="true">
-              <input type="text" name="Organization Name" class="form-control my-2" placeholder="Organizations Name">
+              <input type="text" name="Company" class="form-control my-2" placeholder="Organizations Name">
               <input type="text" name="Email Address" class="form-control my-2" placeholder="Email">
               <input type="text" name="Phone Number" class="form-control my-2" placeholder="Phone Number">
               <input type="text" name="Business Address" class="form-control my-2" placeholder="Address">
@@ -312,6 +313,7 @@
               <input type="checkbox" name="_optin" required />
                 <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
                 <input type="hidden" name="tags" value="businessForm" />
+                <input type="hidden" name="journey" value="3492">
               <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
             </form>
           </div>

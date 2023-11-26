@@ -20,7 +20,7 @@ exports.handler = async (event) => {
         const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
         const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
         const phone = formData.phone || 'none'; // Default to 'none' if not provided
-        const mcTags = document.getElementsByName(tags); // Extracting tags
+        const mcTags = document.getElementsByName(tags).value; // Extracting tags
 
 
         const data = {
@@ -29,10 +29,13 @@ exports.handler = async (event) => {
             merge_fields: {
                 FNAME: firstName,
                 LNAME: lastName,
+                ORGNAME: formData.company,
                 PHONE: formData.phone,
                 INSURANCE: formData.insurance,
                 MEMBERID: formData.memberID,
                 GROUPNUM: formData.groupNumber
+                ADDRESS: formData.address,
+                MESSAGE: formData.message
             },
             tags: mcTags
         };
