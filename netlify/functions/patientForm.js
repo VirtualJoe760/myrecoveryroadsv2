@@ -20,6 +20,8 @@ exports.handler = async (event) => {
         const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
         const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
         const phone = formData.phone || 'none'; // Default to 'none' if not provided
+        
+
 
         const data = {
             email_address: emailAddress,
@@ -27,10 +29,10 @@ exports.handler = async (event) => {
             merge_fields: {
                 FNAME: firstName,
                 LNAME: lastName,
-                PHONE: phone,
-                INSURANCE: insurance,
-                MEMBERID: memberID,
-                GROUPNUM: groupNumber
+                PHONE: formData.phone,
+                INSURANCE: formData.insurance,
+                MEMBERID: formData.memberID,
+                GROUPNUM: formData.groupNumber
             },
             tags: ['Applied']
         };
@@ -39,33 +41,22 @@ exports.handler = async (event) => {
         const apiKey = process.env.MAILCHIMP_API_KEY;
 
         // Sending data to Mailchimp
-        const addContactResponse = await axios.post(url, data, {
+        await axios.post(url, data, {
             headers: {
                 'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        // Check if contact was successfully added before triggering the journey
-        if (addContactResponse.status === 200) {
-            const journeyId = process.env.MAILCHIMP_JOURNEY_ID;
-            const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/steps/step-id/contacts`;
-
-            await axios.post(journeyUrl, { contact_id: addContactResponse.data.id }, {
-                headers: {
-                    'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        }
-
-        return { statusCode: 200, body: 'Contact added to Mailchimp and journey triggered' };
+        return { statusCode: 200, body: 'Contact added to Mailchimp' };
     } catch (error) {
         console.error('Error:', error);
-        // Log Mailchimp errors if present
+        // Specifically log the errors array if it exists in Mailchimp's response
         if (error.response && error.response.data && error.response.data.errors) {
             console.error('Mailchimp errors:', error.response.data.errors);
         }
-        return { statusCode: 500, body: 'Error processing request' };
+        return { statusCode: 500, body: 'Error adding contact to Mailchimp' };
     }
 };
+
+
