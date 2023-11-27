@@ -25,7 +25,7 @@
                     Your stories are shared anonymously. We will review, and curate your story to share with our audience without altering the message.
                 </p>
                 <div class="col-sm-8 mx-5 mt-3">
-                    <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" action="/.netlify/functions/mailer">
+                    <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" action="/.netlify/functions/mailer" enctype="application/x-www-form-urlencoded">
                         <input type="text" name="firstName" class="form-control my-2" placeholder="First Name" required>
                         <input type="text" name="lastName" class="form-control my-2" placeholder="Last Name" required>
                         <input type="email" name="Email Address" class="form-control my-2" placeholder="Email" required>
