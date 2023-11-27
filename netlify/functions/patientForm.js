@@ -1,80 +1,80 @@
-const axios = require('axios');
-const querystring = require('querystring');
+// patientForm.js
 
-exports.handler = async (event) => {
+const fetch = require('node-fetch');
+
+// Access environment variables for Mailchimp API and List ID
+const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
+const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID;
+const MAILCHIMP_SERVER_PREFIX = 'us21'; // Server prefix as provided
+
+// Hardcoded Journey and Step IDs
+const JOURNEY_ID = '3120';
+const STEP_ID = '23580';
+
+exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     if (!event.body) {
-        console.error('No event body in the request');
-        return { statusCode: 400, body: 'No event body in the request' };
+        return { statusCode: 400, body: 'Bad Request: No form data' };
     }
 
-    console.log('Type of event.body:', typeof event.body);
-    console.log('Partial event body:', event.body.substring(0, 200));
-
     try {
-        // Parsing form data
-        const formData = querystring.parse(event.body);
+        const form = JSON.parse(event.body);
 
-        const emailAddress = formData.emailAddress; // Extracting emailAddress
-        const firstName = formData.firstName || 'joe'; // Default to 'joe' if not provided
-        const lastName = formData.lastName || 'sardella'; // Default to 'sardella' if not provided
-        const insurance = formData.insurance || 'none'; // Default to 'none' if not provided
-        const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
-        const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
-        const phone = formData.phone || 'none'; // Default to 'none' if not provided
-        const mcTags = formData.tags || []; // Extracting tags
-
-        const data = {
-            email_address: emailAddress,
+        const mailchimpData = {
+            email_address: form.emailAddress || 'example@example.com',
             status: 'subscribed',
             merge_fields: {
-                FNAME: firstName,
-                LNAME: lastName,
-                PHONE: phone,
-                INSURANCE: insurance,
-                MEMBERID: memberID,
-                GROUPNUM: groupNumber
+                FNAME: form.firstName || 'joe',
+                LNAME: form.lastName || 'sardella',
+                INSURANCE: form.insurance || 'none',
+                MEMBERID: form.memberID || 'none',
+                GROUPNUM: form.groupNumber || 'none',
+                PHONE: form.phone || 'none'
             },
-            tags: ["mcTags"]
+            tags: form.tags || ['default-tag']
         };
 
-        const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
-        const apiKey = process.env.MAILCHIMP_API_KEY;
+        // Construct Mailchimp API URL for adding a member
+        const mailchimpUrl = `https://${MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}/members`;
 
-        // Sending data to Mailchimp
-        const contactResponse = await axios.post(url, data, {
+        // Add member to Mailchimp list
+        const mailchimpResponse = await fetch(mailchimpUrl, {
+            method: 'POST',
+            body: JSON.stringify(mailchimpData),
             headers: {
-                'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
+                'Authorization': `Basic ${Buffer.from(`apikey:${MAILCHIMP_API_KEY}`).toString('base64')}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        // Extracting journey ID from form data
-        const journeyId = formData.journey;
-        if (!journeyId) {
-            console.error('Journey ID is missing');
-            return { statusCode: 400, body: 'Journey ID is missing' };
+        if (!mailchimpResponse.ok) {
+            throw new Error(`Mailchimp error: ${mailchimpResponse.statusText}`);
         }
 
-        // Triggering the customer journey
-        const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
-        await axios.post(journeyUrl, { email_address: emailAddress }, {
+        // Construct Mailchimp API URL for triggering a Customer Journey step
+        const triggerUrl = `https://${MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/customer-journeys/journeys/${JOURNEY_ID}/steps/${STEP_ID}/actions/trigger`;
+
+        // Trigger the specific step in Customer Journey
+        const triggerResponse = await fetch(triggerUrl, {
+            method: 'POST',
+            body: JSON.stringify({ email_address: form.emailAddress }),
             headers: {
-                'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
+                'Authorization': `Basic ${Buffer.from(`apikey:${MAILCHIMP_API_KEY}`).toString('base64')}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        return { statusCode: 200, body: 'Contact added to Mailchimp and journey triggered' };
+        if (!triggerResponse.ok) {
+            throw new Error(`Trigger Journey Step error: ${triggerResponse.statusText}`);
+        }
+
+        console.log('Form submitted and Customer Journey step triggered successfully');
+        return { statusCode: 200, body: 'Form submitted and journey step triggered successfully' };
     } catch (error) {
-        console.error('Error:', error);
-        // Specifically log the errors array if it exists in Mailchimp's response
-        if (error.response && error.response.data && error.response.data.errors) {
-            console.error('Mailchimp errors:', error.response.data.errors);
-        }
-        return { statusCode: 500, body: 'Error processing the request' };
+        console.error('Error processing form submission:', error);
+        return { statusCode: 500, body: 'Internal Server Error' };
     }
 };
