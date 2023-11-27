@@ -1,6 +1,11 @@
 // patientForm.js
+let fetch;
 
-const fetch = require('node-fetch');
+exports.handler = async (event, context) => {
+    if (!fetch) {
+        fetch = (await import('node-fetch')).default;
+    }
+};
 
 // Access environment variables for Mailchimp API and List ID
 const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
