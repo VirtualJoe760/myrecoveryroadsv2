@@ -13,6 +13,10 @@ exports.handler = async (event) => {
         const journeyId = [formData.journey];
         const emailAddress = formData.emailAddress;
 
+        // Log Journey
+        console.log('Extracted Journey',journey);
+        console.log('Extracted email',emailAddress);
+
         // Define Mailchimp API configuration
         const mailchimpConfig = {
             headers: {
@@ -21,6 +25,8 @@ exports.handler = async (event) => {
             }
         };
 
+        
+
         // Trigger the customer journey
         const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
         const response = await axios.post(journeyUrl, { email_address: emailAddress }, mailchimpConfig);
@@ -28,6 +34,7 @@ exports.handler = async (event) => {
         return { statusCode: 200, body: JSON.stringify(response.data) };
     } catch (error) {
         console.error('Error:', error);
+        
         return { statusCode: 500, body: 'Error triggering Mailchimp customer journey' };
     }
 };
