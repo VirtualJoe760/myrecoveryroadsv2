@@ -1,31 +1,34 @@
-const client = require("@mailchimp/mailchimp_marketing");
+const axios = require('axios');
 
-client.setConfig({
-  apiKey: process.env.MAILCHIMP_API_KEY,
-  server: "us21",
-});
+exports.handler = async (event) => {
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
+    }
 
-const journeyId = document.getElementByName('journey').value;
-console.log(journey);
+    try {
+        // Parsing form data
+        const formData = querystring.parse(event.body);
 
-const getJourneyStepId = async (journeyId) => {
-  try {
-    const response = await client.customerJourneys.get(journeyId);
-    // Assuming you want the first step or a specific step
-    const stepId = response.steps[0].id; // or use some condition to find the specific step
-    return stepId;
-  } catch (error) {
-    console.error('Error fetching journey details:', error);
-    throw error;
-  }
+        // Extracting journey ID from form data
+        const journeyId = [formData.journey];
+        const emailAddress = formData.emailAddress;
+
+        // Define Mailchimp API configuration
+        const mailchimpConfig = {
+            headers: {
+                'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        // Trigger the customer journey
+        const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
+        const response = await axios.post(journeyUrl, { email_address: emailAddress }, mailchimpConfig);
+        
+        return { statusCode: 200, body: JSON.stringify(response.data) };
+    } catch (error) {
+        console.error('Error:', error);
+        return { statusCode: 500, body: 'Error triggering Mailchimp customer journey' };
+    }
 };
 
-
-const run = async () => {
-  const response = await client.customerJourneys.trigger(journeyId, stepId, {
-    email_address: emailAddress,
-  });
-  console.log(response);
-};
-
-run();
