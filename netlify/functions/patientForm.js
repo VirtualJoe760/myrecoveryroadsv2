@@ -11,9 +11,6 @@ exports.handler = async (event) => {
         return { statusCode: 400, body: 'No event body in the request' };
     }
 
-    console.log('Type of event.body:', typeof event.body);
-    console.log('Partial event body:', event.body.substring(0, 200));
-
     try {
         // Parsing form data
         const formData = querystring.parse(event.body);
@@ -44,6 +41,8 @@ exports.handler = async (event) => {
 
         const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
         const apiKey = process.env.MAILCHIMP_API_KEY;
+        const journeyUrl = 'https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/3120/steps/25234/actions/trigger';
+
 
         // Sending data to Mailchimp
         const contactResponse = await axios.post(url, data, {
@@ -53,20 +52,20 @@ exports.handler = async (event) => {
             }
         });
 
-        // Extracting journey ID from form data
-        const journeyId = "3120";
-        const listID =  "23580";
+        if (contactResponse.status === 200) {
+            // if contact is successfully added, then trigger the journey
+            await axios.post(journeyUrl, data, {
+                headers: {
+                    'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        // Triggering the customer journey
-        const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
-        await axios.post(journeyUrl, { email_address: emailAddress }, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
-                'Content-Type': 'application/json'
-            }
-        });
+            return { statusCode: 200, body: 'Contact added to Mailchimp and journey triggered' };  
+        } else {
+            return { statusCode: 500, body: 'Contact not added to Mailchimp' };
+        }
 
-        return { statusCode: 200, body: 'Contact added to Mailchimp and journey triggered' };
     } catch (error) {
         console.error('Error:', error);
         // Specifically log the errors array if it exists in Mailchimp's response
