@@ -38,7 +38,7 @@ exports.handler = async (event) => {
                 MEMBERID: memberID,
                 GROUPNUM: groupNumber
             },
-            tags: mcTags
+            tags: ["mcTags"]
         };
 
         const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
