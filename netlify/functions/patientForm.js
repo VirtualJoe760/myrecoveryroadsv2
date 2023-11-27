@@ -54,11 +54,8 @@ exports.handler = async (event) => {
         });
 
         // Extracting journey ID from form data
-        const journeyId = formData.journey;
-        if (!journeyId) {
-            console.error('Journey ID is missing');
-            return { statusCode: 400, body: 'Journey ID is missing' };
-        }
+        const journeyId = "3120";
+        const listID =  "23580";
 
         // Triggering the customer journey
         const journeyUrl = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
