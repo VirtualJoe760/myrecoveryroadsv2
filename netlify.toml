@@ -1,26 +1,13 @@
 # netlify.toml
 [build]
-  # Directory to deploy. Set this to your build output directory.
-  publish = "public"  # Updated to your specific output directory
+  publish = "public"
+  functions = "lambda"
+  command = "npm run build"
 
-  # Your build command.
-  command = "npm run build"  
+  [build.environment]
+  NODE_VERSION = "14"  # Set your desired Node.js version
 
 [dev]
-  # The local development server port.
   port = 8888
-
-  # The port that Netlify Dev will use to proxy requests to your local server.
   targetPort = 8080
-
-  # To enable live reloading on changes.
   autoLaunch = true
-
-# Configuration for serverless functions.
- [functions]
-
-    [functions.node_version]
-    external_node_modules = [
-      "module-one",
-      "module-two"
-    ]
