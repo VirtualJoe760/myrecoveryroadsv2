@@ -5,18 +5,16 @@ exports.handler = async (event, context) => {
     if (!fetch) {
         fetch = (await import('node-fetch')).default;
     }
-};
 
-// Access environment variables for Mailchimp API and List ID
-const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
-const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID;
-const MAILCHIMP_SERVER_PREFIX = 'us21'; // Server prefix as provided
+    // Access environment variables for Mailchimp API and List ID
+    const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
+    const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID;
+    const MAILCHIMP_SERVER_PREFIX = 'us21'; // Server prefix as provided
 
-// Hardcoded Journey and Step IDs
-const JOURNEY_ID = '3120';
-const STEP_ID = '23580';
+    // Hardcoded Journey and Step IDs
+    const JOURNEY_ID = '3120';
+    const STEP_ID = '23580';
 
-exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
