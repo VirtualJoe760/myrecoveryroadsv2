@@ -36,7 +36,7 @@ exports.handler = async (event) => {
                 MEMBERID: memberID,
                 GROUPNUM: groupNumber
             },
-            tags: ["mcTags"]
+            tags: formData.tags ? [formData.tags] : [] // Using form data for tags
         };
 
         const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
@@ -52,26 +52,20 @@ exports.handler = async (event) => {
             }
         });
 
-        if (contactResponse.status === 200) {
-            // if contact is successfully added, then trigger the journey
-            await axios.post(journeyUrl, data, {
-                headers: {
-                    'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+        // Add contact to Mailchimp
+        await axios.post(mailchimpAPI, mailchimpData, { headers: mailchimpHeaders });
 
-            return { statusCode: 200, body: 'Contact added to Mailchimp and journey triggered' };  
-        } else {
-            return { statusCode: 500, body: 'Contact not added to Mailchimp' };
-        }
+        // Trigger the customer journey
+        const journeyId = formData.journey;  // Assuming journey ID is part of form data
+        const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
+        await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
 
+        // Call patient-mailer function
+        await axios.post('/.netlify/functions/patient-mailer', formData, { headers: { 'Content-Type': 'application/json' } });
+
+        return { statusCode: 200, body: 'Contact added to Mailchimp, journey triggered, and email sent' };
     } catch (error) {
         console.error('Error:', error);
-        // Specifically log the errors array if it exists in Mailchimp's response
-        if (error.response && error.response.data && error.response.data.errors) {
-            console.error('Mailchimp errors:', error.response.data.errors);
-        }
         return { statusCode: 500, body: 'Error processing the request' };
     }
 };
