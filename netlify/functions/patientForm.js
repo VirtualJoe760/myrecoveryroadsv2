@@ -54,23 +54,29 @@ exports.handler = async (event) => {
             tls: { ciphers: 'SSLv3' }
         });
 
-        const mailOptions = {
-            from: process.env.MAIL_ADDRESS,
-            to: process.env.YOUR_EMAIL, // Replace with your email address
-            subject: 'New Patient Form Submission',
-            html: `<h1>New Patient Form Submission</h1><hr />
-                     <p>First Name: ${formData.firstName}</p>
-                     <p>Last Name: ${formData.lastName}</p>
-                     <p>Email: ${formData.emailAddress}</p>
-                     <p>Phone: ${formData.phone}</p>
-                     <p>Insurance: ${formData.insurance}</p>
-                     <p>Member ID: ${formData.memberID}</p>
-                     <p>Group Number: ${formData.groupNumber}</p>`,
-            attachments: [
-            { filename: files['front-upload'].name, path: files['front-upload'].path },
-            { filename: files['back-upload'].name, path: files['back-upload'].path }
-            ]
-        };
+        try {
+            const mailOptions = {
+                from: process.env.MAIL_ADDRESS,
+                to: process.env.YOUR_EMAIL, // Replace with your email address
+                subject: 'New Patient Form Submission',
+                html: `<h1>New Patient Form Submission</h1><hr />
+                         <p>First Name: ${formData.firstName}</p>
+                         <p>Last Name: ${formData.lastName}</p>
+                         <p>Email: ${formData.emailAddress}</p>
+                         <p>Phone: ${formData.phone}</p>
+                         <p>Insurance: ${formData.insurance}</p>
+                         <p>Member ID: ${formData.memberID}</p>
+                         <p>Group Number: ${formData.groupNumber}</p>`,
+                attachments: [
+                    { filename: files['front-upload'].name, path: files['front-upload'].path },
+                    { filename: files['back-upload'].name, path: files['back-upload'].path }
+                    ]
+            };
+
+        } catch (error) {
+            console.error('Error sending email:', error);
+            return { statusCode: 500, body: 'Error sending email' };
+        }
 
         await transporter.sendMail(mailOptions);
 
