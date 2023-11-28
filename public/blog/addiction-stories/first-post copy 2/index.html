@@ -151,12 +151,12 @@ Voluptates itaque quam nesciunt corporis debitis vitae consectetur quibusdam ius
           <div class="col-sm-8 mx-5 mt-3">
             <form method="POST" enctype="multipart/form-data" class="application" id="partnerForm"
               name="Partner Application" data-netlify="true">
-              <input type="text" name="Company" class="form-control my-2" placeholder="Organizations Name">
-              <input type="text" name="Email Address" class="form-control my-2" placeholder="Email">
-              <input type="text" name="Phone Number" class="form-control my-2" placeholder="Phone Number">
-              <input type="text" name="Business Address" class="form-control my-2" placeholder="Address">
-              <textarea type="text" name="Business Message" class="form-control story-share mt-2 mb-4"
-                placeholder="Tell us about your services."></textarea>
+              <input type="text" name="firstName" class="form-control my-2" placeholder="First Name">
+              <input type="text" name="lastName" class="form-control my-2" placeholder="Last Name">
+              <input type="text" name="orgName" class="form-control my-2" placeholder="Organizations Name">
+              <input type="email" name="emailAddress" class="form-control my-2" placeholder="Email">
+              <input type="text" name="phone" class="form-control my-2" placeholder="Phone Number">
+              <input type="text" name="busAddress" class="form-control my-2" placeholder="Address">
               <label for="businessType" class="rb-color-primary fs-5 ms-2 mb-1">Type of Business</label>
               <div class="form-check ms-3 mb-3">
                 <input type="radio" name="businessTypeRadial" id="businessTypeSl" class="form-check-input my-2">
@@ -172,7 +172,7 @@ Voluptates itaque quam nesciunt corporis debitis vitae consectetur quibusdam ius
               </div>
               <input type="checkbox" name="_optin" required />
                 <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
-                <input type="hidden" name="tags" value="businessForm" />
+                <input type="hidden" name="tags" value="businessPartner" />
                 <input type="hidden" name="journey" value="3492">
               <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Join our Network</button>
             </form>

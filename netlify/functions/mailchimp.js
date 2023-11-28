@@ -28,19 +28,35 @@ exports.handler = async (event) => {
             merge_fields: {
                 FNAME: formData.firstName,
                 LNAME: formData.lastName,
+                ORGNAME: formData.orgName,
+                ADDRESS: formData.busAddress,
                 PHONE: formData.phone,
                 INSURANCE: formData.insurance,
                 MEMBERID: formData.memberID,
                 GROUPNUMBER: formData.groupNumber
+                BUSINESSTYPE: formData.businessTypeRadial,
             },
             tags: formData.tags ? [formData.tags] : []
         };
+        console.log('Mailchimp data:', mailchimpData);
 
         await axios.post(mailchimpAPI, mailchimpData, { headers: mailchimpHeaders });
 
-        // Trigger customer journey
-        const journeyId = formData.journey;
-        const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/steps/25234/actions/trigger`;
+        let journeyID; // Define journey ID
+        const mcTags = formData.tags;
+
+        if (mcTags === "Applied") {
+            journeyID = process.env.JOURNEY_APPLIED;
+            stepID = process.env.STEP_APPLIED;
+        } else if (mcTags === "businessPartner") {
+            journeyID = process.env.PARTNERY_JOURNEY;
+            stepID = process.env.PARTNER_STEP;
+        } else if (mcTags === "storyTeller") {
+            journeyID = process.env.STORY_JOURNEY;
+            stepID = process.env.STORY_STEP;
+        }
+        
+        const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyID}/steps/${stepID}/actions/trigger`;
         await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
 
         return { statusCode: 200, body: 'Form processed successfully' };
