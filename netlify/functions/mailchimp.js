@@ -19,6 +19,7 @@ exports.handler = async (event) => {
         'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
         'Content-Type': 'application/json'
     };
+    console.log('Mailchimp API:', mailchimpAPI);
 
     try {
         // Mailchimp API request to add contact
@@ -33,7 +34,7 @@ exports.handler = async (event) => {
                 PHONE: formData.phone,
                 INSURANCE: formData.insurance,
                 MEMBERID: formData.memberID,
-                GROUPNUMBER: formData.groupNumber
+                GROUPNUMBER: formData.groupNumber,
                 BUSINESSTYPE: formData.businessTypeRadial,
             },
             tags: formData.tags ? [formData.tags] : []
@@ -42,7 +43,7 @@ exports.handler = async (event) => {
 
         await axios.post(mailchimpAPI, mailchimpData, { headers: mailchimpHeaders });
 
-        let journeyID; // Define journey ID
+        let journeyID, stepID; // Define journey ID
         const mcTags = formData.tags;
 
         if (mcTags === "Applied") {
