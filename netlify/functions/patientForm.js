@@ -58,15 +58,6 @@ exports.handler = async (event) => {
         const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/steps/25234/actions/trigger`;
         await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
 
-        // Prepare email with attachments
-        const attachments = [];
-        if (formData['front-upload']) {
-            attachments.push({ filename: 'front-upload.jpg', content: Buffer.from(formData['front-upload'], 'base64') });
-        }
-        if (formData['back-upload']) {
-            attachments.push({ filename: 'back-upload.jpg', content: Buffer.from(formData['back-upload'], 'base64') });
-        }
-
         const mailOptions = {
             from: process.env.MAIL_ADDRESS,
             to: process.env.YOUR_EMAIL,
@@ -78,11 +69,7 @@ exports.handler = async (event) => {
                      <p>Phone: ${formData.phone}</p>
                      <p>Insurance: ${formData.insurance}</p>
                      <p>Member ID: ${formData.memberID}</p>
-                     <p>Group Number: ${formData.groupNumber}</p>`,
-            attachments: [
-            { filename: files['front-upload'].name, path: files['front-upload'].path },
-            { filename: files['back-upload'].name, path: files['back-upload'].path }
-        ]
+                     <p>Group Number: ${formData.groupNumber}</p>`
         };
 
         // Send email
@@ -93,9 +80,3 @@ exports.handler = async (event) => {
         return { statusCode: 500, body: `Error processing the request: ${error.message}` };
     }
 };
-
-
-
-
-
-    
