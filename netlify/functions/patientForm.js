@@ -13,14 +13,30 @@ exports.handler = async (event) => {
     }
 
     const formData = querystring.parse(event.body);
+
+    // Configure Mailchimp API
     const mailchimpAPI = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
     const mailchimpHeaders = {
         'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
         'Content-Type': 'application/json'
     };
 
+    // Configure NodeMailer
+    const transporter = nodeMailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        secureConnection: false,
+        port: 587,
+        auth: {
+            user: process.env.MAIL_ADDRESS,
+            pass: process.env.MAIL_PASS,
+        },
+        tls: {
+            ciphers: 'SSLv3'
+        }
+    });
+
     try {
-        // Mailchimp API request
+        // Mailchimp API request to add contact
         const mailchimpData = {
             email_address: formData.emailAddress,
             status: 'subscribed',
@@ -42,48 +58,39 @@ exports.handler = async (event) => {
         const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/steps/25234/actions/trigger`;
         await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
 
-        // Email sending
-        const transporter = nodeMailer.createTransport({
-            host: "smtp-mail.outlook.com",
-            secureConnection: false,
-            port: 587,
-            auth: {
-                user: process.env.MAIL_ADDRESS,
-                pass: process.env.MAIL_PASS,
-            },
-            tls: { ciphers: 'SSLv3' }
-        });
-
-        try {
-            const mailOptions = {
-                from: process.env.MAIL_ADDRESS,
-                to: process.env.YOUR_EMAIL, // Replace with your email address
-                subject: 'New Patient Form Submission',
-                html: `<h1>New Patient Form Submission</h1><hr />
-                         <p>First Name: ${formData.firstName}</p>
-                         <p>Last Name: ${formData.lastName}</p>
-                         <p>Email: ${formData.emailAddress}</p>
-                         <p>Phone: ${formData.phone}</p>
-                         <p>Insurance: ${formData.insurance}</p>
-                         <p>Member ID: ${formData.memberID}</p>
-                         <p>Group Number: ${formData.groupNumber}</p>`,
-                attachments: [
-                    { filename: files['front-upload'].name, path: files['front-upload'].path },
-                    { filename: files['back-upload'].name, path: files['back-upload'].path }
-                    ]
-            };
-
-        } catch (error) {
-            console.error('Error sending email:', error);
-            return { statusCode: 500, body: 'Error sending email' };
+        // Prepare email with attachments
+        const attachments = [];
+        if (formData['front-upload']) {
+            attachments.push({ filename: 'front-upload.jpg', content: Buffer.from(formData['front-upload'], 'base64') });
+        }
+        if (formData['back-upload']) {
+            attachments.push({ filename: 'back-upload.jpg', content: Buffer.from(formData['back-upload'], 'base64') });
         }
 
-        await transporter.sendMail(mailOptions);
+        const mailOptions = {
+            from: process.env.MAIL_ADDRESS,
+            to: process.env.YOUR_EMAIL,
+            subject: 'New Patient Form Submission',
+            html: `<h1>New Patient Form Submission</h1><hr />
+                     <p>First Name: ${formData.firstName}</p>
+                     <p>Last Name: ${formData.lastName}</p>
+                     <p>Email: ${formData.emailAddress}</p>
+                     <p>Phone: ${formData.phone}</p>
+                     <p>Insurance: ${formData.insurance}</p>
+                     <p>Member ID: ${formData.memberID}</p>
+                     <p>Group Number: ${formData.groupNumber}</p>`,
+            attachments: [
+            { filename: files['front-upload'].name, path: files['front-upload'].path },
+            { filename: files['back-upload'].name, path: files['back-upload'].path }
+        ]
+        };
 
+        // Send email
+        await transporter.sendMail(mailOptions);
         return { statusCode: 200, body: 'Contact added to Mailchimp, journey triggered, and email sent' };
     } catch (error) {
         console.error('Error:', error);
-        return { statusCode: 500, body: 'Error processing the request: ' + error.message };
+        return { statusCode: 500, body: `Error processing the request: ${error.message}` };
     }
 };
 
@@ -91,4 +98,4 @@ exports.handler = async (event) => {
 
 
 
-
+    
