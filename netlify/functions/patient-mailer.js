@@ -37,17 +37,13 @@ exports.handler = async (event) => {
         to: process.env.MRR_MAIL,
         subject: `New Patient Form Submission: ${fields.firstName} ${fields.lastName}`,
         html: `<h1>Patient Information</h1>
-               <p>First Name: ${fields.firstName}</p>
-               <p>Last Name: ${fields.lastName}</p>
-               <p>Email: ${fields.emailAddress}</p>
-               <p>Phone: ${fields.phone}</p>
-               <p>Insurance Provider: ${fields.insurance}</p>
-               <p>ID Number: ${fields.memberID}</p>
-               <p>Group Number: ${fields.groupNumber}</p>`,
-        attachments: [
-            { filename: files['front-upload'].name, path: files['front-upload'].path },
-            { filename: files['back-upload'].name, path: files['back-upload'].path }
-        ]
+               <h3>First Name: ${fields.firstName}</h3>
+               <h3>Last Name: ${fields.lastName}</h3>
+               <h3>Email: ${fields.emailAddress}</h3>
+               <h3>Phone: ${fields.phone}</h3>
+               <h3>Insurance Provider: ${fields.insurance}</h3>
+               <h3>ID Number: ${fields.memberID}</h3>
+               <h3>Group Number: ${fields.groupNumber}</h3>`,
     };
 
     try {
