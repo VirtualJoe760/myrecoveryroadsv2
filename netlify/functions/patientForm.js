@@ -74,7 +74,7 @@ exports.handler = async (event) => {
 
         // Send email
         await transporter.sendMail(mailOptions);
-        return { statusCode: 200, body: 'Contact added to Mailchimp, journey triggered, and email sent' };
+        return { statusCode: 200' };
     } catch (error) {
         console.error('Error:', error);
         return { statusCode: 500, body: `Error processing the request: ${error.message}` };
