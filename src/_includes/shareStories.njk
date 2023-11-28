@@ -25,7 +25,7 @@
                     Your stories are shared anonymously. We will review, and curate your story to share with our audience without altering the message.
                 </p>
                 <div class="col-sm-8 mx-5 mt-3">
-                    <form id="storySubmission" name="Story Submission" data-netlify="true" method="POST" enctype="application/x-www-form-urlencoded">
+                    <form id="storySubmission" id="mailchimp" name="Story Submission" data-netlify="true" method="POST" enctype="application/x-www-form-urlencoded">
                         <input type="text" name="firstName" class="form-control my-2" placeholder="First Name" required>
                         <input type="text" name="lastName" class="form-control my-2" placeholder="Last Name" required>
                         <input type="email" name="Email Address" class="form-control my-2" placeholder="Email" required>
@@ -34,6 +34,7 @@
                             placeholder="Share your story." required></textarea>
                         <input type="checkbox" name="_optin" class="opt-in" required />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light mb-2">You Agree to email communication.</label>
+                        <input type="hidden" value="mailchimp">
                         <input type="hidden" name="tags" value="storyTeller" />
                         <input type="hidden" name="journey" value="3116">
                         <button type="submit" class="btn btn-outline-primary mb-5">Share your story</button>  
