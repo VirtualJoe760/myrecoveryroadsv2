@@ -60,7 +60,7 @@ exports.handler = async (event) => {
 
         const mailOptions = {
             from: process.env.MAIL_ADDRESS,
-            to: process.env.YOUR_EMAIL,
+            to: process.env.MRR_MAIL,
             subject: 'New Patient Form Submission',
             html: `<h1>New Patient Form Submission</h1><hr />
                      <p>First Name: ${formData.firstName}</p>
