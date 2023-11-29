@@ -1,7 +1,7 @@
 <section id="apply" class="apply">
     <div class="container">
         <div class="application-heading">
-            <h1 class="rb-text-heavy rb-color-primary">Get help</h1>
+            <h1 class="rb-text-heavy rb-color-primary">Find a program</h1>
             <hr class="white-hr mb-4">
             <p class="rb-text-light rb-color-primary fs-5">Fill out the form below to apply for our program. Our intake coordinators will reach out within 72 hours via email or phone to discuss your options.</p>
 
@@ -9,7 +9,7 @@
 
         <!-- Patient Intake Form -->
         <div class="container join-program">
-            <form class="application" id="mailchimp" name="Patient Intake" data-netlify="true" method="POST" enctype="multipart/form-data">
+            <form class="application" id="mailchimp" name="Patient Intake" data-netlify="true" method="POST" enctype="application/x-www-form-urlencoded">
 
                 <!-- Form fields... -->
                 <!-- First and Last Name Fields -->
@@ -52,12 +52,6 @@
                 <!-- File Upload Fields -->
                 <div class="row">
                     <div class="col-9 upload-container rb-color-primary rb-text-light">
-                        <p class="rb-color-primary">Total filesize above 10 mb will not be submited:</p>
-                        <label class="form-label" for="front-upload">Upload Front of Insurance Card:</label>
-                        <input class="upload-input" accept="image/png, image/jpeg" type="file" id="front-upload" name="front-upload"><br>
-                        <label class="form-label" for="back-upload">Upload Back of Insurance Card:</label>
-                        <input class="upload-input" accept="image/png, image/jpeg" type="file" id="back-upload" name="back-upload"><br>
-                        <input type="hidden" name="_next" value="https://www.myrecoveryroads.com" />
                         <input type="checkbox" name="_optin" class="opt-in" />
                         <label for="_optin" class="form-label rb-color-primary rb-text-light">You Agree to email communication.</label>
                         <input type="hidden" value="mailchimp" />

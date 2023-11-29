@@ -48,12 +48,12 @@ p, span {
 }
 
 .pagination-navigation {
-    color: var(--primary);
+    color: var(--secondary);
     font-size: 3rem;
     margin-top: auto;
 }
 .pagination-navigation:hover {
-    color: var(--secondary);
+    color: var(--calm);
     font-size: 3rem;
 }
 
@@ -87,4 +87,17 @@ p, span {
 
 .post-thumb-nail {
     object-fit: cover;
+}
+
+@media screen and (max-width: 991px) {
+
+    .post-thumb-nail-mobile {
+        display: block;    
+    }
+    .email-story {
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+    }
+
 }
