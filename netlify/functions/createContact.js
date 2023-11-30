@@ -51,23 +51,38 @@ exports.handler = async (event) => {
         });
         
         let journeyID, stepID; // Define journey ID
-        const mcTags = formData.tags;
+        const tags = formData.tags;
+        console.log('Tags are:', tags)
 
-        if (mcTags === "Applied") {
-            journeyID = process.env.JOURNEY_APPLIED;
-            stepID = process.env.STEP_APPLIED;
-        } else if (mcTags === "businessPartner") {
-            journeyID = process.env.PARTNERY_JOURNEY;
+        if (tags === "Applied") {
+            journeyID = process.env.APPLIED_JOURNEY;
+            stepID = process.env.APPLIED_STEP;
+        } else if (tags === "businessPartner") {
+            journeyID = process.env.PARTNER_JOURNEY;
             stepID = process.env.PARTNER_STEP;
-        } else if (mcTags === "storyTeller") {
+        } else if (tags === "storyTeller") {
             journeyID = process.env.STORY_JOURNEY;
             stepID = process.env.STORY_STEP;
         }
 
+
         if (journeyID && stepID) {
             const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyID}/steps/${stepID}/actions/trigger`;
+        
+            const mailchimpHeaders = {
+                'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
+                'Content-Type': 'application/json'
+            };
+        
             await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
+            
+            console.log('Journey API is:', journeyAPI);
+            console.log('headers are:', mailchimpHeaders);
         }
+        
+
+        console.log('Journey ID is:', journeyID);
+        console.log('Step ID is:', stepID);
 
         return { statusCode: 200, body: 'Form processed successfully' };
 
