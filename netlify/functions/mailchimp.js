@@ -5,7 +5,7 @@ exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
-
+    console.log('Event:', event);
     if (!event.body) {
         console.error('No event body in the request');
         return { statusCode: 400, body: 'No event body in the request' };
