@@ -12,12 +12,14 @@ exports.handler = async (event) => {
     }
 
     const formData = querystring.parse(event.body);
+    console.log('Form data:', formData);
+    console.log('Event Body:', event.body);
 
     // Configure Mailchimp API
     const mailchimpAPI = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
     const mailchimpHeaders = {
         'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/javascript'
     };
     console.log('Mailchimp API:', mailchimpAPI);
 
@@ -39,9 +41,11 @@ exports.handler = async (event) => {
             },
             tags: formData.tags ? [formData.tags] : []
         };
-        console.log('Mailchimp data:', mailchimpData);
+        
+        console.log('Mailchimp data:', mailchimpData, mailchimpAPI, mailchimpHeaders);
 
         await axios.post(mailchimpAPI, mailchimpData, { headers: mailchimpHeaders });
+
 
         let journeyID, stepID; // Define journey ID
         const mcTags = formData.tags;
@@ -57,10 +61,13 @@ exports.handler = async (event) => {
             stepID = process.env.STORY_STEP;
         }
         
-        const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyID}/steps/${stepID}/actions/trigger`;
-        await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
+        if (journeyID && stepID) {
+            const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyID}/steps/${stepID}/actions/trigger`;
+            await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
+        }
 
         return { statusCode: 200, body: 'Form processed successfully' };
+
     } catch (error) {
         console.error('Error:', error);
         return { statusCode: 500, body: `Error processing the request: ${error.message}` };
