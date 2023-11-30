@@ -4,12 +4,12 @@ const querystring = require('querystring');
 exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
-    } 
+    }
 
     if (!event.body) {
         console.error('No event body in the request');
         return { statusCode: 400, body: 'No event body in the request' };
-    } console.log('First Event:', event);
+    }
 
     try {
         // Parsing form data
@@ -21,7 +21,7 @@ exports.handler = async (event) => {
         const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
         const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
         const phone = formData.phone || 'none'; // Default to 'none' if not provided
-        
+        const mcTags = formData.tags || []; // Extracting tags
 
         console.log('Extracted email:', emailAddress);
 
@@ -38,12 +38,12 @@ exports.handler = async (event) => {
             },
             tags: formData.tags ? [formData.tags] : [] // Using form data for tags
         };
-
         console.log('Here is the Data:', data);
 
         const url = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
         const apiKey = process.env.MAILCHIMP_API_KEY;
-        
+        const journeyUrl = 'https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/3120/steps/25234/actions/trigger';
+
 
         // Sending data to Mailchimp
         const contactResponse = await axios.post(url, data, {
@@ -53,30 +53,20 @@ exports.handler = async (event) => {
             }
         });
 
+        // Add contact to Mailchimp
+        await axios.post(mailchimpAPI, mailchimpData, { headers: mailchimpHeaders });
 
-        let journeyID, stepID; // Define journey ID
-        const mcTags = formData.tags;
+        // Trigger the customer journey
+        const journeyId = formData.journey;  // Assuming journey ID is part of form data
+        const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyId}/contacts`;
+        await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
 
-        if (mcTags === "Applied") {
-            journeyID = process.env.JOURNEY_APPLIED;
-            stepID = process.env.STEP_APPLIED;
-        } else if (mcTags === "businessPartner") {
-            journeyID = process.env.PARTNERY_JOURNEY;
-            stepID = process.env.PARTNER_STEP;
-        } else if (mcTags === "storyTeller") {
-            journeyID = process.env.STORY_JOURNEY;
-            stepID = process.env.STORY_STEP;
-        }
+        // Call patient-mailer function
+        await axios.post('/.netlify/functions/patient-mailer', formData, { headers: { 'Content-Type': 'application/json' } });
 
-        if (journeyID && stepID) {
-            const journeyAPI = `https://us21.api.mailchimp.com/3.0/customer-journeys/journeys/${journeyID}/steps/${stepID}/actions/trigger`;
-            await axios.post(journeyAPI, { email_address: formData.emailAddress }, { headers: mailchimpHeaders });
-        }
-
-        return { statusCode: 200, body: 'Form processed successfully' };
-
+        return { statusCode: 200, body: 'Contact added to Mailchimp, journey triggered, and email sent' };
     } catch (error) {
         console.error('Error:', error);
-        return { statusCode: 500, body: `Error processing the request: ${error.message}` };
+        return { statusCode: 500, body: 'Error processing the request' };
     }
 };
