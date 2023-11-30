@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     const mailchimpAPI = `https://us21.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
     const mailchimpHeaders = {
         'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
-        'Content-Type': 'text/javascript'
+        'Content-Type': 'application/json'
     };
     console.log('Mailchimp API:', mailchimpAPI);
 
