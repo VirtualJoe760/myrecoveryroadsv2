@@ -21,7 +21,7 @@ exports.handler = async (event) => {
         const memberID = formData.memberID || 'none'; // Default to 'none' if not provided
         const groupNumber = formData.groupNumber || 'none'; // Default to 'none' if not provided
         const phone = formData.phone || 'none'; // Default to 'none' if not provided
-        cosnt orgName = formData.orgName || 'MRR Partner';
+        const orgName = formData.orgName || 'MRR Partner';
 
         const data = {
             email_address: email,
